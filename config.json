@@ -1,0 +1,114 @@
+{
+  "sitio": {
+    "nombre": "Jahns - Acompañamiento Psicológico",
+    "titulo": "Jahns - Psicología y Acompañamiento",
+    "descripcion": "Acompañamiento psicológico profesional en Colombia. Sesiones online, presenciales y en espacios abiertos.",
+    "autor": "Jahns",
+    "email": "info@jahnspsicologia.com",
+    "telefonoWhatsApp": "+57 XXX XXXX XXX",
+    "ubicacion": "Colombia",
+    "urlInstagram": "https://instagram.com",
+    "urlFacebook": "https://facebook.com",
+    "urlWhatsApp": "https://wa.me/57XXXXXXXXX",
+    "zona_horaria": "America/Bogota"
+  },
+  "colores": {
+    "primario": "#6B5B95",
+    "secundario": "#88498F",
+    "destaque": "#FFD700",
+    "fondo_claro": "#f9f9f9",
+    "texto_oscuro": "#333",
+    "texto_gris": "#666"
+  },
+  "servicios": [
+    {
+      "titulo": "Acompañamiento Psicológico",
+      "descripcion": "Sesiones personalizadas para trabajar en tus necesidades específicas y encontrar soluciones efectivas.",
+      "imagen": "images/ps1.jpeg",
+      "precio": 60000
+    },
+    {
+      "titulo": "Orientación para Jóvenes",
+      "descripcion": "Ayuda especializada para adolescentes y jóvenes adultos en sus procesos de desarrollo y toma de decisiones.",
+      "imagen": "images/ps2.jpeg",
+      "precio": 60000
+    },
+    {
+      "titulo": "Terapia de Parejas",
+      "descripcion": "Acompañamiento para mejorar la comunicación y fortalecer las relaciones de pareja.",
+      "imagen": "images/ps3.jpg",
+      "precio": 80000
+    },
+    {
+      "titulo": "Sesiones Online",
+      "descripcion": "Acceso flexible a terapia desde cualquier lugar, manteniendo privacidad y comodidad.",
+      "imagen": "images/ps4.jpg",
+      "precio": 60000
+    },
+    {
+      "titulo": "Sesiones en Espacios Abiertos",
+      "descripcion": "Encuentros en lugares tranquilos y naturales para una conexión más profunda con la naturaleza.",
+      "imagen": "images/ps5.jpg",
+      "precio": 60000
+    },
+    {
+      "titulo": "Sesiones Presenciales",
+      "descripcion": "Atención personalizada en espacios cómodos y seguros para tu mayor comodidad.",
+      "imagen": "images/ps6.jpg",
+      "precio": 60000
+    }
+  ],
+  "paquetes": [
+    {
+      "nombre": "Sesión Individual",
+      "precio": 60000,
+      "moneda": "COP",
+      "duracion": "60 minutos",
+      "descripcion": "Una sesión de acompañamiento psicológico profesional",
+      "stripe_id": "price_individual"
+    },
+    {
+      "nombre": "Paquete de 5 Sesiones",
+      "precio": 250000,
+      "moneda": "COP",
+      "duracion": "5 sesiones",
+      "descripcion": "5 sesiones con descuento especial - Válido por 3 meses",
+      "stripe_id": "price_paquete5",
+      "descuento": "16.7%"
+    },
+    {
+      "nombre": "Paquete de 10 Sesiones",
+      "precio": 450000,
+      "moneda": "COP",
+      "duracion": "10 sesiones",
+      "descripcion": "10 sesiones con descuento especial - Válido por 6 meses",
+      "stripe_id": "price_paquete10",
+      "descuento": "25%"
+    }
+  ],
+  "googleCalendar": {
+    "email": "AQUI_VA_TU_EMAIL_GOOGLE@gmail.com",
+    "id": "AQUI_VA_TU_CALENDAR_ID",
+    "timezone": "America/Bogota"
+  },
+  "stripe": {
+    "clavePublica": "pk_test_TU_CLAVE_PUBLICA_AQUI",
+    "moneda": "cop",
+    "pais": "CO"
+  },
+  "formularios": {
+    "emailDestino": "info@jahnspsicologia.com",
+    "confirmacionAutomatica": true,
+    "campos_cita": ["nombre", "telefono", "correo", "introduccion", "tipo-sesion"],
+    "campos_contacto": ["nombre", "correo", "mensaje"]
+  },
+  "caracteristicas": {
+    "calendarioGoogle": true,
+    "formularioCitas": true,
+    "formularioContacto": true,
+    "sistemaPagos": true,
+    "botGestionCitas": true,
+    "exportarCSV": true,
+    "guardarEnLocalStorage": true
+  }
+}

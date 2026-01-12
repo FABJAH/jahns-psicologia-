@@ -1,0 +1,513 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Status | Jahns Psicología - Panel de Progreso</title>
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+      min-height: 100vh;
+      padding: 20px;
+    }
+
+    .container {
+      max-width: 1000px;
+      margin: 0 auto;
+    }
+
+    header {
+      text-align: center;
+      color: white;
+      margin-bottom: 40px;
+      padding: 30px 0;
+    }
+
+    header h1 {
+      font-size: 2.5em;
+      margin-bottom: 10px;
+    }
+
+    header p {
+      font-size: 1.1em;
+      opacity: 0.9;
+    }
+
+    .dashboard {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 20px;
+      margin-bottom: 40px;
+    }
+
+    .card {
+      background: white;
+      border-radius: 10px;
+      padding: 25px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 15px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .card h2 {
+      color: #667eea;
+      margin-bottom: 15px;
+      font-size: 1.3em;
+    }
+
+    .status-badge {
+      display: inline-block;
+      padding: 5px 12px;
+      border-radius: 20px;
+      font-size: 0.85em;
+      font-weight: bold;
+      margin-bottom: 15px;
+    }
+
+    .status-complete {
+      background-color: #4CAF50;
+      color: white;
+    }
+
+    .status-pending {
+      background-color: #FF9800;
+      color: white;
+    }
+
+    .status-missing {
+      background-color: #f44336;
+      color: white;
+    }
+
+    .progress-bar {
+      width: 100%;
+      height: 8px;
+      background-color: #e0e0e0;
+      border-radius: 10px;
+      margin-bottom: 15px;
+      overflow: hidden;
+    }
+
+    .progress-fill {
+      height: 100%;
+      background: linear-gradient(90deg, #4CAF50, #45a049);
+      transition: width 0.3s ease;
+    }
+
+    .item-list {
+      list-style: none;
+    }
+
+    .item-list li {
+      padding: 8px 0;
+      display: flex;
+      align-items: center;
+      font-size: 0.95em;
+    }
+
+    .item-icon {
+      width: 20px;
+      height: 20px;
+      margin-right: 10px;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: white;
+      font-size: 12px;
+      font-weight: bold;
+    }
+
+    .icon-check {
+      background-color: #4CAF50;
+    }
+
+    .icon-pending {
+      background-color: #FF9800;
+    }
+
+    .icon-missing {
+      background-color: #f44336;
+    }
+
+    .section-title {
+      color: #333;
+      font-weight: 600;
+      margin-bottom: 12px;
+      margin-top: 15px;
+      padding-top: 15px;
+      border-top: 2px solid #f0f0f0;
+    }
+
+    .section-title:first-child {
+      margin-top: 0;
+      border-top: none;
+    }
+
+    .footer {
+      text-align: center;
+      color: white;
+      margin-top: 40px;
+      padding: 20px;
+      opacity: 0.9;
+    }
+
+    .stats {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 15px;
+      margin-bottom: 30px;
+    }
+
+    .stat-box {
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      text-align: center;
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-number {
+      font-size: 2.5em;
+      font-weight: bold;
+      color: #667eea;
+      margin-bottom: 5px;
+    }
+
+    .stat-label {
+      color: #666;
+      font-size: 0.9em;
+    }
+
+    .notes {
+      background: white;
+      border-radius: 10px;
+      padding: 25px;
+      margin-top: 20px;
+      box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    }
+
+    .notes h3 {
+      color: #667eea;
+      margin-bottom: 15px;
+    }
+
+    .note-item {
+      padding: 10px 0;
+      border-bottom: 1px solid #f0f0f0;
+      color: #333;
+    }
+
+    .note-item:last-child {
+      border-bottom: none;
+    }
+
+    .note-title {
+      font-weight: 600;
+      color: #667eea;
+    }
+
+    .btn-container {
+      text-align: center;
+      margin-top: 30px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 12px 30px;
+      background-color: white;
+      color: #667eea;
+      text-decoration: none;
+      border-radius: 5px;
+      font-weight: bold;
+      transition: all 0.3s ease;
+      margin: 0 10px;
+    }
+
+    .btn:hover {
+      background-color: #f0f0f0;
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 1.8em;
+      }
+
+      .stats {
+        grid-template-columns: 1fr;
+      }
+
+      .dashboard {
+        grid-template-columns: 1fr;
+      }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>📊 Dashboard de Progreso</h1>
+      <p>Jahns Psicología - Estado del Proyecto</p>
+      <p style="font-size: 0.9em; margin-top: 10px;">Actualizado: 12 de enero de 2026</p>
+    </header>
+
+    <div class="stats">
+      <div class="stat-box">
+        <div class="stat-number">85%</div>
+        <div class="stat-label">Completado</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">3</div>
+        <div class="stat-label">Tareas Pendientes</div>
+      </div>
+      <div class="stat-box">
+        <div class="stat-number">1</div>
+        <div class="stat-label">Mejoras Sugeridas</div>
+      </div>
+    </div>
+
+    <div class="dashboard">
+      <!-- Card 1: Funcionalidad -->
+      <div class="card">
+        <h2>✨ Funcionalidad</h2>
+        <span class="status-badge status-complete">COMPLETADO</span>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 100%;"></div>
+        </div>
+        <ul class="item-list">
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>Navegación funcional</span>
+          </li>
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>Formulario de citas</span>
+          </li>
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>Sistema de localStorage</span>
+          </li>
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>Responsive (móvil/desktop)</span>
+          </li>
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>Estilos y animaciones</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Card 2: Contenido -->
+      <div class="card">
+        <h2>📝 Contenido</h2>
+        <span class="status-badge status-pending">EN PROGRESO</span>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 70%;"></div>
+        </div>
+        <div class="section-title">Textos</div>
+        <ul class="item-list">
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>Textos principales</span>
+          </li>
+          <li>
+            <div class="item-icon icon-pending">⚠</div>
+            <span>Descripción "Sobre Mí"</span>
+          </li>
+          <li>
+            <div class="item-icon icon-pending">⚠</div>
+            <span>Descripciones de servicios</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Card 3: Imágenes -->
+      <div class="card">
+        <h2>🖼️ Imágenes</h2>
+        <span class="status-badge status-missing">PENDIENTE</span>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 30%;"></div>
+        </div>
+        <div class="section-title">Imagen de Perfil</div>
+        <ul class="item-list">
+          <li>
+            <div class="item-icon icon-missing">✕</div>
+            <span>Foto personal (Sobre Mí)</span>
+          </li>
+        </ul>
+        <div class="section-title">Imágenes de Servicios</div>
+        <ul class="item-list">
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>ps1.jpeg (Sesión Individual)</span>
+          </li>
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>ps2.jpeg (Jóvenes)</span>
+          </li>
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>ps3.jpeg (Parejas)</span>
+          </li>
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>ps4.jpeg (Online)</span>
+          </li>
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>ps5.jpeg (Grupos)</span>
+          </li>
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>ps6.jpeg (Espacios abiertos)</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Card 4: Integraciones -->
+      <div class="card">
+        <h2>🔗 Integraciones</h2>
+        <span class="status-badge status-pending">EN PROGRESO</span>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 50%;"></div>
+        </div>
+        <ul class="item-list">
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>Google Calendar (listo)</span>
+          </li>
+          <li>
+            <div class="item-icon icon-pending">⚠</div>
+            <span>Stripe (requiere API keys)</span>
+          </li>
+          <li>
+            <div class="item-icon icon-pending">⚠</div>
+            <span>Email de contacto</span>
+          </li>
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>Redes sociales (links)</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Card 5: Optimización -->
+      <div class="card">
+        <h2>⚡ Optimización</h2>
+        <span class="status-badge status-complete">COMPLETADO</span>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 100%;"></div>
+        </div>
+        <ul class="item-list">
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>SEO básico</span>
+          </li>
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>Responsive Design</span>
+          </li>
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>Performance optimizado</span>
+          </li>
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>Validación de formularios</span>
+          </li>
+        </ul>
+      </div>
+
+      <!-- Card 6: Documentación -->
+      <div class="card">
+        <h2>📚 Documentación</h2>
+        <span class="status-badge status-complete">COMPLETADO</span>
+        <div class="progress-bar">
+          <div class="progress-fill" style="width: 100%;"></div>
+        </div>
+        <ul class="item-list">
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>README.md</span>
+          </li>
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>INICIO_RAPIDO.md</span>
+          </li>
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>PERSONALIZACIONES.md</span>
+          </li>
+          <li>
+            <div class="item-icon icon-check">✓</div>
+            <span>RESUMEN_PROYECTO.md</span>
+          </li>
+        </ul>
+      </div>
+    </div>
+
+    <!-- Notas y Cambios Pendientes -->
+    <div class="notes">
+      <h3>📋 Tareas Pendientes y Mejoras</h3>
+
+      <div class="note-item">
+        <span class="note-title">🔴 PRIORITARIO: Foto Personal</span>
+        <p>Se necesita una foto profesional para la sección "Sobre Mí". Dimensiones recomendadas: 400x400px (cuadrada) o 500x350px (rectangular).</p>
+      </div>
+
+      <div class="note-item">
+        <span class="note-title">🟡 Descripción "Sobre Mí"</span>
+        <p>Se debe completar el texto con información personal de la psicóloga: formación, experiencia, enfoque terapéutico y certificaciones.</p>
+      </div>
+
+      <div class="note-item">
+        <span class="note-title">🟡 Descripciones de Servicios</span>
+        <p>Expandir las descripciones de cada servicio para que sean más detalladas y atractivas para los posibles clientes.</p>
+      </div>
+
+      <div class="note-item">
+        <span class="note-title">🟢 Google Calendar</span>
+        <p>✓ Ya está configurado. Los clientes pueden ver la disponibilidad en tiempo real.</p>
+      </div>
+
+      <div class="note-item">
+        <span class="note-title">ℹ️ Configuración de Stripe (Opcional)</span>
+        <p>Si deseas activar pagos en línea, necesitas agregar tus claves API de Stripe en la configuración. Ver PERSONALIZACIONES.md para detalles.</p>
+      </div>
+
+      <div class="note-item">
+        <span class="note-title">ℹ️ Email de Contacto</span>
+        <p>Para que los formularios de contacto envíen emails, se requiere un backend. Se incluye un ejemplo en backend_ejemplo.py</p>
+      </div>
+
+      <div class="note-item">
+        <span class="note-title">✅ Sugerencia: Testimonios</span>
+        <p>Considerar agregar una sección de testimonios de clientes para mayor credibilidad.</p>
+      </div>
+    </div>
+
+    <!-- Botones de Acción -->
+    <div class="btn-container">
+      <a href="index.html" class="btn">🏠 Ver Página Principal</a>
+      <a href="README.md" class="btn">📖 Documentación</a>
+    </div>
+
+    <div class="footer">
+      <p>Panel de Control - Jahns Psicología | Última actualización: 12 de enero de 2026</p>
+    </div>
+  </div>
+</body>
+</html>

@@ -6,7 +6,7 @@ Se ha creado una página web profesional completamente funcional con todas las c
 
 ---
 
-## 🔄 Flujo único Git (PC, VS Code y GitHub)
+## 🔄 Flujo único Git (PC, VS Code, repo y live)
 
 Para que todo quede sincronizado siempre igual, usa el script:
 
@@ -19,10 +19,11 @@ Este comando hace automáticamente:
 - `git add -A`
 - `git commit`
 - `git pull --rebase`
-- `git push`
+- `git push` al repo de trabajo
+- `git push` al repo live (`jahns-psicologia-`)
 - verificación final con `git status -sb`
 
-Si no hay cambios, solo sincroniza con remoto y valida estado.
+Si no hay cambios, solo sincroniza y publica el commit actual en ambos repos.
 
 ---
 

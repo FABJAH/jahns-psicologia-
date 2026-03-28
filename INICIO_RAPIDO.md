@@ -6,6 +6,26 @@ Se ha creado una página web profesional completamente funcional con todas las c
 
 ---
 
+## 🔄 Flujo único Git (PC, VS Code y GitHub)
+
+Para que todo quede sincronizado siempre igual, usa el script:
+
+```bash
+./flujo_git.sh "tu mensaje de commit"
+```
+
+Este comando hace automáticamente:
+- `git fetch`
+- `git add -A`
+- `git commit`
+- `git pull --rebase`
+- `git push`
+- verificación final con `git status -sb`
+
+Si no hay cambios, solo sincroniza con remoto y valida estado.
+
+---
+
 ## 📋 Lo que incluye tu sitio web:
 
 ### ✅ Secciones Principales

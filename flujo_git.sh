@@ -1,15 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-# Flujo único para mantener local, repositorio y live sincronizados.
+# Flujo único para mantener local y GitHub sincronizados.
 # Uso:
 #   ./flujo_git.sh "mensaje del commit"
 #
 # Si no pasas mensaje y hay cambios, el script te lo pedirá.
-
-# Repositorio que alimenta el sitio live (GitHub Pages).
-LIVE_REPO_URL="https://github.com/FABJAH/jahns-psicologia-.git"
-LIVE_BRANCH="main"
 
 REPO_ROOT="$(git rev-parse --show-toplevel 2>/dev/null || true)"
 if [[ -z "${REPO_ROOT}" ]]; then
@@ -34,12 +30,11 @@ fi
 echo "Repositorio: ${REPO_ROOT}"
 echo "Rama: ${BRANCH}"
 echo "Remoto: $(git remote get-url origin)"
-echo "Remoto live: ${LIVE_REPO_URL} (${LIVE_BRANCH})"
 
-echo "[1/7] Verificando estado local..."
+echo "[1/6] Verificando estado local..."
 git status --short
 
-echo "[2/7] Actualizando referencias remotas..."
+echo "[2/6] Actualizando referencias remotas..."
 git fetch origin
 
 # Si la rama local no tiene upstream, lo configuramos en el primer push.
@@ -63,34 +58,31 @@ if [[ -n "$(git status --porcelain)" ]]; then
     exit 1
   fi
 
-  echo "[3/7] Agregando cambios..."
+  echo "[3/6] Agregando cambios..."
   git add -A
 
-  echo "[4/7] Creando commit..."
+  echo "[4/6] Creando commit..."
   git commit -m "${COMMIT_MSG}"
 else
-  echo "[3/7] No hay cambios locales para commit."
-  echo "[4/7] Se omite commit."
+  echo "[3/6] No hay cambios locales para commit."
+  echo "[4/6] Se omite commit."
 fi
 
-echo "[5/7] Integrando cambios remotos (rebase)..."
+echo "[5/6] Integrando cambios remotos (rebase)..."
 if [[ "${UPSTREAM_EXISTS}" == "yes" ]]; then
   git pull --rebase
 else
   git pull --rebase origin "${BRANCH}" || true
 fi
 
-echo "[6/7] Enviando cambios a repositorio de trabajo..."
+echo "[6/6] Enviando cambios a GitHub..."
 if [[ "${UPSTREAM_EXISTS}" == "yes" ]]; then
   git push
 else
   git push -u origin "${BRANCH}"
 fi
 
-echo "[7/7] Enviando cambios al repositorio live..."
-git push "${LIVE_REPO_URL}" "${BRANCH}:${LIVE_BRANCH}"
-
-echo "Sincronizacion completa. Estado final (repo de trabajo):"
+echo "Sincronizacion completa. Estado final:"
 git status -sb
-echo "Commit actual publicado en live:"
+echo "Commit actual publicado:"
 git rev-parse --short HEAD

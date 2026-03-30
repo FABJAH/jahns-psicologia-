@@ -87,7 +87,7 @@
       <p>
         En cada atención priorizamos el respeto, la empatía y el acompañamiento profesional.
       </p>
-      <button class="btn-1" onclick="abrirModal()">Solicitar Información</button>
+      <button type="button" class="btn-1 btn-abrir-modal">Solicitar Información</button>
     </div>
   </main>
 
@@ -108,7 +108,7 @@
       <p>
         Trabajamos juntos para construir herramientas que te ayuden a vivir con mayor claridad y bienestar.
       </p>
-      <button class="btn-1" onclick="abrirModal()">Solicitar Información</button>
+      <button type="button" class="btn-1 btn-abrir-modal">Solicitar Información</button>
     </div>
   </section>
 
@@ -132,7 +132,7 @@
         <p>Claves prácticas para fortalecer el vínculo.</p>
       </div>
     </div>
-    <button class="btn-1" onclick="abrirModal()">Solicitar Información</button>
+    <button type="button" class="btn-1 btn-abrir-modal">Solicitar Información</button>
   </section>
 
   <section id="citas" class="citas">
@@ -208,7 +208,7 @@
 <!-- ===== MODAL SOLICITUD ===== -->
 <div id="modalContacto" class="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="modalTitulo">
   <div class="modal-box">
-    <button class="modal-cerrar" onclick="cerrarModal()" aria-label="Cerrar">&times;</button>
+    <button type="button" class="modal-cerrar" onclick="cerrarModal()" aria-label="Cerrar">&times;</button>
     <h2 id="modalTitulo">Solicitar Información</h2>
     <p class="modal-sub">Cuéntanos un poco sobre ti y te contactaremos pronto.</p>
 
@@ -276,13 +276,17 @@
 
     <div id="formExito" class="form-exito" style="display:none">
       <p>✅ ¡Gracias! Recibimos tu solicitud. Nos pondremos en contacto contigo muy pronto.</p>
-      <button class="btn-1" onclick="cerrarModal()">Cerrar</button>
+      <button type="button" class="btn-1" onclick="cerrarModal()">Cerrar</button>
     </div>
   </div>
 </div>
 
 <script>
-  function abrirModal() {
+  function abrirModal(e) {
+    if (e) {
+      e.preventDefault();
+      e.stopPropagation();
+    }
     document.getElementById('modalContacto').classList.add('activo');
     document.body.style.overflow = 'hidden';
   }
@@ -308,6 +312,10 @@
     document.getElementById('formContacto').style.display = 'none';
     document.getElementById('formExito').style.display = 'block';
   }
+
+  document.querySelectorAll('.btn-abrir-modal').forEach(function(btn) {
+    btn.addEventListener('click', abrirModal);
+  });
 </script>
 
 </body>

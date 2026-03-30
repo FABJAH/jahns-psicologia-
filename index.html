@@ -87,7 +87,7 @@
       <p>
         En cada atención priorizamos el respeto, la empatía y el acompañamiento profesional.
       </p>
-      <button type="button" class="btn-1 btn-abrir-modal">Solicitar Información</button>
+      <button type="button" class="btn-1 btn-abrir-modal" onclick="abrirModal(event)">Solicitar Información</button>
     </div>
   </main>
 
@@ -108,7 +108,7 @@
       <p>
         Trabajamos juntos para construir herramientas que te ayuden a vivir con mayor claridad y bienestar.
       </p>
-      <button type="button" class="btn-1 btn-abrir-modal">Solicitar Información</button>
+      <button type="button" class="btn-1 btn-abrir-modal" onclick="abrirModal(event)">Solicitar Información</button>
     </div>
   </section>
 
@@ -132,7 +132,7 @@
         <p>Claves prácticas para fortalecer el vínculo.</p>
       </div>
     </div>
-    <button type="button" class="btn-1 btn-abrir-modal">Solicitar Información</button>
+    <button type="button" class="btn-1 btn-abrir-modal" onclick="abrirModal(event)">Solicitar Información</button>
   </section>
 
   <section id="citas" class="citas">
@@ -319,11 +319,19 @@
       e.preventDefault();
       e.stopPropagation();
     }
-    document.getElementById('modalContacto').classList.add('activo');
+    var modal = document.getElementById('modalContacto');
+    if (!modal) return;
+    modal.classList.add('activo');
+    modal.style.display = 'flex';
+    modal.style.visibility = 'visible';
     document.body.style.overflow = 'hidden';
   }
   function cerrarModal() {
-    document.getElementById('modalContacto').classList.remove('activo');
+    var modal = document.getElementById('modalContacto');
+    if (!modal) return;
+    modal.classList.remove('activo');
+    modal.style.display = 'none';
+    modal.style.visibility = 'hidden';
     document.body.style.overflow = '';
     document.getElementById('formContacto').style.display = 'block';
     document.getElementById('formExito').style.display = 'none';
@@ -390,6 +398,13 @@
       cerrarModal();
     }
   });
+
+  // Estado inicial defensivo por si hay cache viejo de CSS.
+  var modalInicial = document.getElementById('modalContacto');
+  if (modalInicial) {
+    modalInicial.style.display = 'none';
+    modalInicial.style.visibility = 'hidden';
+  }
 
   configurarCalendarios();
 </script>

@@ -144,7 +144,8 @@
            Luego pega ese enlace en el atributo src del iframe de abajo. -->
       <div class="citas-calendario">
         <iframe
-          src="https://calendar.google.com/calendar/appointments/schedules/REEMPLAZAR_CON_TU_ENLACE"
+          id="iframeCitas"
+          src=""
           style="border:0"
           width="100%"
           height="600"
@@ -153,6 +154,9 @@
           title="Agenda tu cita">
         </iframe>
       </div>
+      <p id="citasPendiente" class="citas-pendiente" style="display:none">
+        El calendario de citas esta en configuracion. Puedes escribirnos por correo o WhatsApp para agendar.
+      </p>
       <p class="citas-alt">¿Prefieres contactarnos directamente?
         <a href="mailto:jb.psicologa.25@gmail.com">jb.psicologa.25@gmail.com</a> ·
         <a href="https://wa.me/573023104811">WhatsApp</a>
@@ -263,12 +267,16 @@
         <div class="calendario-embed">
           <!-- Reemplaza REEMPLAZAR_CON_TU_ENLACE con el enlace de tu horario de Google Calendar -->
           <iframe
-            src="https://calendar.google.com/calendar/appointments/schedules/REEMPLAZAR_CON_TU_ENLACE"
+            id="iframeModalCitas"
+            src=""
             style="border:0" width="100%" height="450"
             frameborder="0" scrolling="no"
             title="Selecciona fecha y hora">
           </iframe>
         </div>
+        <p id="modalCalendarioPendiente" class="modal-cal-pendiente" style="display:none">
+          El calendario aun no esta configurado. Te contactaremos para confirmar tu horario.
+        </p>
       </div>
 
       <button type="submit" class="btn-1 btn-submit">Enviar solicitud</button>
@@ -282,6 +290,28 @@
 </div>
 
 <script>
+  var CALENDAR_URL = '';
+
+  function configurarCalendarios() {
+    var iframeCitas = document.getElementById('iframeCitas');
+    var iframeModal = document.getElementById('iframeModalCitas');
+    var avisoCitas = document.getElementById('citasPendiente');
+    var avisoModal = document.getElementById('modalCalendarioPendiente');
+    var calendarioSeccion = document.querySelector('.citas-calendario');
+
+    if (CALENDAR_URL && CALENDAR_URL.indexOf('REEMPLAZAR_CON_TU_ENLACE') === -1) {
+      if (iframeCitas) iframeCitas.src = CALENDAR_URL;
+      if (iframeModal) iframeModal.src = CALENDAR_URL;
+      if (avisoCitas) avisoCitas.style.display = 'none';
+      if (avisoModal) avisoModal.style.display = 'none';
+      if (calendarioSeccion) calendarioSeccion.style.display = 'block';
+    } else {
+      if (avisoCitas) avisoCitas.style.display = 'block';
+      if (avisoModal) avisoModal.style.display = 'block';
+      if (calendarioSeccion) calendarioSeccion.style.display = 'none';
+    }
+  }
+
   function abrirModal(e) {
     if (e) {
       e.preventDefault();
@@ -302,6 +332,14 @@
     if (e.target === this) cerrarModal();
   });
   function mostrarCalendario(radio) {
+    var bloqueCalendario = document.getElementById('bloqueCalendario');
+    if (!bloqueCalendario) return;
+
+    if (!CALENDAR_URL || CALENDAR_URL.indexOf('REEMPLAZAR_CON_TU_ENLACE') !== -1) {
+      bloqueCalendario.style.display = 'none';
+      return;
+    }
+
     document.getElementById('bloqueCalendario').style.display =
       (radio.value === 'llamada' || radio.value === 'online') ? 'block' : 'none';
   }
@@ -316,6 +354,14 @@
   document.querySelectorAll('.btn-abrir-modal').forEach(function(btn) {
     btn.addEventListener('click', abrirModal);
   });
+
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') {
+      cerrarModal();
+    }
+  });
+
+  configurarCalendarios();
 </script>
 
 </body>

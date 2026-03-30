@@ -254,7 +254,7 @@
         <label>¿Cómo prefieres que te contactemos? *</label>
         <div class="form-opciones">
           <label class="opcion-radio">
-            <input type="radio" name="modalidad" value="llamada" onchange="mostrarCalendario(this)"> Llamada telefónica
+            <input type="radio" name="modalidad" value="llamada" onchange="mostrarCalendario(this)" required> Llamada telefónica
           </label>
           <label class="opcion-radio">
             <input type="radio" name="modalidad" value="online" onchange="mostrarCalendario(this)"> Consulta online
@@ -291,6 +291,8 @@
 
 <script>
   var CALENDAR_URL = '';
+  var CONTACT_EMAIL = 'jb.psicologa.25@gmail.com';
+  var WHATSAPP_NUMBER = '573023104811';
 
   function configurarCalendarios() {
     var iframeCitas = document.getElementById('iframeCitas');
@@ -345,8 +347,36 @@
   }
   function enviarFormulario(e) {
     e.preventDefault();
-    // Aquí puedes conectar un backend o servicio de formularios (Formspree, EmailJS, etc.)
-    // Por ahora simula el envío exitoso
+    var nombre = document.getElementById('fNombre').value.trim();
+    var apellido = document.getElementById('fApellido').value.trim();
+    var telefono = document.getElementById('fTelefono').value.trim();
+    var consultaSelect = document.getElementById('fConsulta');
+    var consulta = consultaSelect.options[consultaSelect.selectedIndex].text;
+    var comentario = document.getElementById('fComentario').value.trim() || 'Sin comentario';
+    var modalidad = document.querySelector('input[name="modalidad"]:checked');
+    var modalidadTexto = modalidad ? modalidad.value : 'No especificada';
+
+    var asunto = 'Tiene un correo de posible paciente';
+    var mensajePlano =
+      'Tiene un correo de posible paciente.\n\n' +
+      'Nombre: ' + nombre + ' ' + apellido + '\n' +
+      'Telefono: ' + telefono + '\n' +
+      'Tipo de consulta: ' + consulta + '\n' +
+      'Modalidad: ' + modalidadTexto + '\n' +
+      'Comentario: ' + comentario;
+
+    var mailtoUrl =
+      'mailto:' + CONTACT_EMAIL +
+      '?subject=' + encodeURIComponent(asunto) +
+      '&body=' + encodeURIComponent(mensajePlano);
+
+    var whatsappUrl =
+      'https://wa.me/' + WHATSAPP_NUMBER +
+      '?text=' + encodeURIComponent(mensajePlano);
+
+    window.open(whatsappUrl, '_blank', 'noopener');
+    window.location.href = mailtoUrl;
+
     document.getElementById('formContacto').style.display = 'none';
     document.getElementById('formExito').style.display = 'block';
   }
